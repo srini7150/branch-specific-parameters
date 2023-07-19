@@ -7,6 +7,10 @@ pipeline {
         booleanParam(name: 'test', defaultValue: true, description: 'Check for running test stage (Not applicable for feature branches)')
     }
 
+    options {
+        buildDiscarder logRotator(numToKeepStr: '5')
+    }
+
     stages {
         stage('build') {
             when {
