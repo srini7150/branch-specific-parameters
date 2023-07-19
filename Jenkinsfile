@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     parameters {
-        booleanParam(name: 'build', defaultValue: true, description: 'Check for running build stage')
-        booleanParam(name: 'sonar', defaultValue: true, description: 'Check for running sonar stage')
-        booleanParam(name: 'test', defaultValue: true, description: 'Check for running test stage')
+        booleanParam(name: 'build', defaultValue: true, description: 'Check for running build stage (Not applicable for feature branches)')
+        booleanParam(name: 'sonar', defaultValue: true, description: 'Check for running sonar stage (Not applicable for feature branches)')
+        booleanParam(name: 'test', defaultValue: true, description: 'Check for running test stage (Not applicable for feature branches)')
     }
 
     stages {
