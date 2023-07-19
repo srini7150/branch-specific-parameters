@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             when {
                 expression {
-                    params.build || isReleaseBranch()
+                    params.build || isFeatureBranch()
                 }
             }
             steps {
@@ -22,7 +22,7 @@ pipeline {
         stage('sonar') {
             when {
                 expression {
-                    params.sonar || isReleaseBranch()
+                    params.sonar || isFeatureBranch()
                 }
             }
             steps {
@@ -33,7 +33,7 @@ pipeline {
         stage('test') {
             when {
                 expression {
-                    params.test || isReleaseBranch()
+                    params.test || isFeatureBranch()
                 }
             }
             steps {
