@@ -9,22 +9,41 @@ pipeline {
 
     stages {
         stage('build') {
+            when {
+                expression {
+                    params.build || isReleaseBranch()
+                }
+            }
             steps {
                 sh 'echo "This is build stage"'
             }
         }
 
         stage('sonar') {
+            when {
+                expression {
+                    params.sonar || isReleaseBranch()
+                }
+            }
             steps {
                 sh 'echo "This is sonar stage"'
             }
         }
 
         stage('test') {
+            when {
+                expression {
+                    params.test || isReleaseBranch()
+                }
+            }
             steps {
                 sh 'echo "This is test stage"'
             }
         }
     }
 
+}
+
+def isFeatureBranch() {
+    return env.BRANCH_NAME.startsWith('feature')
 }
