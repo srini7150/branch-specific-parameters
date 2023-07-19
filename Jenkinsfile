@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             when {
                 expression {
-                    params.build || isFeatureBranch()
+                    params.build || BRANCH_NAME =~ /^feature/
                 }
             }
             steps {
@@ -22,7 +22,7 @@ pipeline {
         stage('sonar') {
             when {
                 expression {
-                    params.sonar || isFeatureBranch()
+                    params.sonar || BRANCH_NAME =~ /^feature/
                 }
             }
             steps {
@@ -33,7 +33,7 @@ pipeline {
         stage('test') {
             when {
                 expression {
-                    params.test || isFeatureBranch()
+                    params.test || BRANCH_NAME =~ /^feature/
                 }
             }
             steps {
@@ -42,8 +42,4 @@ pipeline {
         }
     }
 
-}
-
-def isFeatureBranch() {
-    return env.BRANCH_NAME.startsWith('feature')
 }
