@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     def VERSION = readfile('version.counter')
-                    def VERSION = VERSION.split('\\.')
+                    VERSION = VERSION.split('\\.')
                     echo "VERSION[0] = ${VERSION[0]}"
                     echo "VERSION[1] = ${VERSION[1]}"
                     echo "VERSION[2] = ${VERSION[2]}"
