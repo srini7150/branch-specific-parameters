@@ -22,18 +22,26 @@ pipeline {
         stage('versioning') {
             steps {
                 script {
-                    VERSION = readFile('versions/version.counter')
-                    INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
-                    SUB_MINOR_VERSION = BUILD_NUMBER.toInteger() - INIT_RELEASE_BUILD_NO.toInteger()
-                    VERSION = VERSION.split('\\.')
-                    echo "VERSION[0] = ${VERSION[0]}"
-                    echo "VERSION[1] = ${VERSION[1]}"
-                    echo "VERSION[2] = ${VERSION[2]}"
-                    echo "updating VERSION[2] to sub minor version"
-                    VERSION[2] = SUB_MINOR_VERSION
-                    echo "updated VERSION[2] to sub minor version is: ${VERSION[2]}"
-                    VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2]
-                    echo "Updated version is ${VERSION}"
+                    if ( "${BRANCH_NAME}" == "release") {
+                        VERSION = readFile('versions/version.counter')
+                        INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
+                        SUB_MINOR_VERSION = BUILD_NUMBER.toInteger() - INIT_RELEASE_BUILD_NO.toInteger()
+                        VERSION[2] = SUB_MINOR_VERSION
+                        VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2]
+                    }
+                    else if ("${BRANCH_NAME}" =~ /(hotfix.*)/) {
+                        VERSION = readFile('versions/hotfix.counter')
+                        INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
+                        VERSION[3] = BUILD_NUMBER
+                        VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2] + VERSION[3]
+                    }
+                    else if ("${BRANCH_NAME}" == "ist") {
+                        VERSION = readFile('versions/version.counter')
+                        VERSION = "${VERSION}-SNAPSHOT"
+                    }
+                    else {
+                        VERSION = "1.0.0-SNAPSHOT"
+                    }
                 }
             }
         }
@@ -79,7 +87,14 @@ pipeline {
             }
             steps {
                 sh 'echo "This is hotfix or release branch"'
-                sh "echo 'branch_name is: ${BRANCH_NAME}'"
+                sh "echo 'branch_name is: '"
+                sh "echo 'version in ${BRANCH_NAME} branch is ${VERSION}'"
+            }
+        }
+
+        stage('version test') {
+            steps {
+                sh "echo 'version in ${BRANCH_NAME} branch is ${VERSION}'"
             }
         }
 
