@@ -12,6 +12,19 @@ pipeline {
     }
 
     stages {
+
+        stage('versioning') {
+            steps {
+                script {
+                    def VERSION = readfile('version.counter')
+                    def VERSION = VERSION.split('\\.')
+                    echo "VERSION[0] = ${VERSION[0]}"
+                    echo "VERSION[1] = ${VERSION[1]}"
+                    echo "VERSION[2] = ${VERSION[2]}"
+                }
+            }
+        }
+
         stage('build') {
             when {
                 expression {
@@ -60,3 +73,4 @@ pipeline {
     }
 
 }
+
