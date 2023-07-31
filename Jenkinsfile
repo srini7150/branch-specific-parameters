@@ -44,6 +44,19 @@ pipeline {
                 sh 'echo "This is test stage"'
             }
         }
+
+        stage('hotfix or release') {
+            when {
+                expression {
+                    BRANCH_NAME == "release" || BRANCH_NAME =~ /(hotfix.*)/
+                }
+            }
+            steps {
+                sh 'echo "This is hotfix or release branch"'
+                sh "echo 'branch_name is: ${BRANCH_NAME}'"
+            }
+        }
+
     }
 
 }
