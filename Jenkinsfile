@@ -35,7 +35,7 @@ pipeline {
                         VERSION = VERSION.split('\\.')
                         INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
                         VERSION[3] = BUILD_NUMBER
-                        VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2] + VERSION[3]
+                        VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2] + "." + VERSION[3]
                     }
                     else if ("${BRANCH_NAME}" == "ist") {
                         VERSION = readFile('versions/version.counter')
