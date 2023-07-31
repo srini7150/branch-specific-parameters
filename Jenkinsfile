@@ -22,7 +22,7 @@ pipeline {
                     echo "VERSION[1] = ${VERSION[1]}"
                     echo "VERSION[2] = ${VERSION[2]}"
                     sh "echo VERSION[2] is ${VERSION[2]} before increment"
-                    VERSION[2] = VERSION[2]++
+                    VERSION[2]++
                     sh "echo VERSION[2] is ${VERSION[2]} after increment"
                 }
             }
