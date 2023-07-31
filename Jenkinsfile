@@ -24,6 +24,7 @@ pipeline {
                 script {
                     if ( "${BRANCH_NAME}" == "release") {
                         VERSION = readFile('versions/version.counter')
+                        VERSION = VERSION.split('\\.')
                         INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
                         SUB_MINOR_VERSION = BUILD_NUMBER.toInteger() - INIT_RELEASE_BUILD_NO.toInteger()
                         VERSION[2] = SUB_MINOR_VERSION
@@ -31,6 +32,7 @@ pipeline {
                     }
                     else if ("${BRANCH_NAME}" =~ /(hotfix.*)/) {
                         VERSION = readFile('versions/hotfix.counter')
+                        VERSION = VERSION.split('\\.')
                         INIT_RELEASE_BUILD_NO = readFile('versions/init_release_build_no')
                         VERSION[3] = BUILD_NUMBER
                         VERSION = VERSION[0] + "." + VERSION[1] + "." + VERSION[2] + VERSION[3]
